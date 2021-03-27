@@ -1,0 +1,20 @@
+{
+  "showSteps": false,
+  "widgets": [
+    {
+      "name": "text",
+      "type": "static-text",
+      "params": {
+        "text": "Hello world"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "main",
+      "mainPanel": {
+        "name": "text"
+      }
+    }
+  ]
+}

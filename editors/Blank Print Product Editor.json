@@ -1,0 +1,455 @@
+{
+  "attributes": [
+    {
+      "name": "Width",
+      "label": "Width (inch)",
+      "type": "number",
+      "step": 0.125,
+      "validations": [
+        {
+          "type": "min",
+          "min": 0.125,
+          "message": "Only positive values are allowed"
+        },
+        {
+          "type": "required",
+          "message": "A product width is a required field!"
+        }
+      ],
+      "description": "Choose a width of a final product (without bleeds)."
+    },
+    {
+      "name": "Height",
+      "label": "Height (inch)",
+      "type": "number",
+      "step": 0.125,
+      "validations": [
+        {
+          "type": "min",
+          "min": 0.125,
+          "message": "Only positive values are allowed"
+        },
+        {
+          "type": "required",
+          "message": "A product height is a required field!"
+        }
+      ],
+      "description": "Choose a height (in inch) of a final product (without bleeds)."
+    },
+    {
+      "name": "Bleed",
+      "label": "Bleed (inch)",
+      "type": "number",
+      "step": 0.125,
+      "defaultValue": 0,
+      "validations": [
+        {
+          "type": "min",
+          "min": 0,
+          "message": "A product bleed should not be below zero."
+        }
+      ],
+      "description": "Choose a bleed zone size (in inch)."
+    },
+    {
+      "name": "Pages",
+      "label": "Number of pages",
+      "type": "number",
+      "defaultValue": 1,
+      "step": 1,
+      "validations": [
+        {
+          "type": "min",
+          "min": 1,
+          "message": "A product should have at least one page."
+        }
+      ],
+      "description": "Specify how many pages (or sides) should be added to a product initially."
+    },
+    {
+      "name": "Clipart",
+      "label": "Clipart gallery",
+      "type": "asset-root",
+      "assetType": "image",
+      "description": "Choose a clipart folder. Users will be able adding images from this folder to their designs. Leave blank to turn this feature off."
+    },
+    {
+      "name": "Backgrounds",
+      "label": "Backgrounds",
+      "type": "asset-root",
+      "assetType": "image",
+      "description": "Choose a background folder. Users will be able choosing backgrounds from this folder. It is recommended preparing backgrounds for each product size separately. Leave blank to turn this feature off."
+    },
+    {
+      "name": "Output Resolution",
+      "label": "Output Print File Resolution",
+      "defaultValue": 300,
+      "validations": [
+        {
+          "type": "min",
+          "min": 1,
+          "message": "Resolution should be a positive number."
+        }
+      ],
+      "type": "number"
+    },
+    {
+      "name": "AllowDownloadProofPdf",
+      "label": "Allow users to download low-res proof PDF file",
+      "type": "checkbox",
+      "defaultValue": false
+    },
+    {
+      "name": "Watermark",
+      "label": "Add watermark to proof images",
+      "type": "checkbox",
+      "defaultValue": false
+    }
+  ],
+  "vars": {
+    "width": "{{ (parseFloat(product.attributes?.find(x=>x.name==='Width')?.value) + 2 * product.attributes?.find(x=>x.name==='Bleed')?.value) * 72 }}",
+    "height": "{{ (parseFloat(product.attributes?.find(x=>x.name==='Height')?.value)  + 2 * product.attributes?.find(x=>x.name==='Bleed')?.value) * 72 }}",
+    "bleed": "{{ parseFloat(product.attributes?.find(x=>x.name==='Bleed')?.value) * 72 ?? 0 }}",
+    "pages": "{{ product.attributes?.find(x=>x.name==='Pages')?.value ?? 1 }}",
+    "clipart": "{{ product.attributes?.find(x=>x.name==='Clipart')?.value?.fullPath?.replace(/^\\/+|\\/+$/g, '') ?? ''}}",
+    "backgrounds": "{{ product.attributes?.find(x=>x.name==='Backgrounds')?.value?.fullPath?.replace(/^\\/+|\\/+$/g, '') ?? ''}}",
+    "outputResolution": "{{ product.attributes.find(x=>x.name==='Output Resolution').value}}",
+    "allowDownloadProofPdf": "{{ product.attributes?.find(x=>x.name==='AllowDownloadProofPdf')?.value ?? false }}",
+    "watermarkEnabled": "{{ product.attributes?.find(x=>x.name==='Watermark')?.value === true }}"
+  },
+  "showSteps": true,
+  "widgets": [
+    {
+      "name": "editor",
+      "type": "design-editor",
+      "params": {
+        "initial": {
+          "productDefinition": {
+            "surfaces": {
+              "{{#each [...Array(vars.pages).keys()]}}": {
+                "width": "{{vars.width}}",
+                "height": "{{vars.height}}",
+                "printAreas": [
+                  {
+                    "bounds": {
+                      "x": 0,
+                      "y": 0,
+                      "width": "{{vars.width}}",
+                      "height": "{{vars.height}}"
+                    },
+                    "safetyLines": [
+                      {
+                        "margin": "{{vars.bleed}}",
+                        "color": "rgba(255,0,255,0.75)",
+                        "altColor": "rgba(255,255,255,0)",
+                        "stepPx": 5,
+                        "widthPx": 1,
+                        "pdfBox": "trim"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "editorConfig": {
+            "initialMode": "Advanced",
+            "restoreProductOnReloadEnabled": false,
+            "watermark": {
+              "image": {
+                "name": "proof.png",
+                "opacity": 0.5
+              },
+              "visibility": {
+                "proof": "{{ vars.watermarkEnabled }}"
+              }
+            },
+            "fontList": {
+              "appFonts": [
+                "*"
+              ]
+            },
+            "assetSources": {
+              "My files": {
+                "type": "PrivateSource",
+                "allowedExtensions": [
+                  "jpg",
+                  "jpeg",
+                  "png",
+                  "pdf",
+                  "bmp",
+                  "tif",
+                  "tiff"
+                ]
+              },
+              "Clipart": {
+                "type": "PublicSource",
+                "rootFolder": {
+                  "show": true
+                },
+                "rootCategory": {
+                  "name": "{{vars.clipart}}"
+                },
+                "actionMode": {
+                  "psd": "Merged",
+                  "svg": "Clipart",
+                  "pdf": "Vector",
+                  "ai": "Vector"
+                }
+              },
+              "Background": {
+                "type": "PublicSource",
+                "rootFolder": {
+                  "show": true
+                },
+                "rootCategory": {
+                  "name": "{{vars.backgrounds}}"
+                },
+                "actionMode": {
+                  "psd": "Merged",
+                  "svg": "Vector",
+                  "pdf": "Vector",
+                  "ai": "Vector"
+                }
+              }
+            },
+            "rendering": {
+              "hiResOutputDpi": "{{vars.outputResolution}}",
+              "hiResOutputFileFormat": "pdf",
+              "hiResOutputColorSpace": "cmyk",
+              "proofImageSafetyLinesEnabled": false
+            },
+            "canvas": {
+              "violationWarningButtonsEnabled": true,
+              "qualityChangeContainersEnabled": true,
+              "containerColor": "#ffffff",
+              "color": "#ffffff",
+              "shadowEnabled": true,
+              "rulers": {
+                "enabled": true
+              }
+            },
+            "violationWarningsSettings": {
+              "qualityMeter": {
+                "enabled": true
+              },
+              "regionViolationWarningEnabled": true,
+              "safetyLineViolationWarningEnabled": false,
+              "textCropViolationWarningEnabled": true,
+              "shapeViolationsEnabled": true
+            },
+            "widgets": {
+              "AssetManager": {
+                "tabs": {
+                  "{{#concat}}": [
+                    [
+                      {
+                        "name": "My files",
+                        "assetSourceInstance": "My files",
+                        "iconClassName": "cc-icon-uploadable",
+                        "controls": {
+                          "toolbarEnabled": false
+                        }
+                      }
+                    ],
+                    {
+                      "{{#if !!vars.clipart }}": [
+                        {
+                          "name": "Clipart",
+                          "assetSourceInstance": "Clipart",
+                          "iconClassName": "cc_icon_clipart",
+                          "controls": {
+                            "categoriesEnabled": true,
+                            "assetNameEnabled": false,
+                            "toolbarEnabled": false
+                          }
+                        }
+                      ],
+                      "{{#else}}": []
+                    },
+                    {
+                      "{{#if !!vars.backgrounds}}": [
+                        {
+                          "name": "Background",
+                          "assetSourceInstance": "Background",
+                          "iconClassName": "cc_icon_background",
+                          "controls": {
+                            "categoriesEnabled": true,
+                            "assetNameEnabled": false,
+                            "toolbarEnabled": false
+                          }
+                        }
+                      ],
+                      "{{#else}}": []
+                    }
+                  ]
+                }
+              },
+              "Toolbox": {
+                "buttons": {
+                  "{{#concat}}": [
+                    [
+                      {
+                        "translationKey": "Toolbox.TEXT",
+                        "translationKeyTitle": "Toolbox.TITLE_ADD_TEXT",
+                        "iconClass": "cc-icon-add-text",
+                        "buttons": [
+                          "Text",
+                          "BoundedText"
+                        ]
+                      },
+                      {
+                        "translationKey": "Toolbox.SHAPE",
+                        "translationKeyTitle": "Toolbox.TITLE_ADD_SHAPE",
+                        "iconClass": "cc-icon-add-shape",
+                        "buttons": [
+                          "Line",
+                          "Rectangle",
+                          "Ellipse"
+                        ]
+                      },
+                      "QrCode",
+                      {
+                        "action": "Image",
+                        "iconClass": "cc-icon-uploadable",
+                        "tabs": [
+                          "My files"
+                        ]
+                      }
+                    ],
+                    {
+                      "{{#if !!vars.clipart }}": [
+                        {
+                          "action": "Image",
+                          "iconClass": "cc_icon_clipart",
+                          "tabs": [
+                            "Clipart"
+                          ]
+                        }
+                      ],
+                      "{{#else}}": []
+                    },
+                    {
+                      "{{#if !!vars.backgrounds}}": [
+                        {
+                          "action": "Background",
+                          "iconClass": "cc_icon_background",
+                          "tabs": [
+                            "Background"
+                          ]
+                        }
+                      ],
+                      "{{#else}}": []
+                    }
+                  ]
+                }
+              },
+              "ObjectInspector": {
+                "position": "Right",
+                "isHidden": false,
+                "bgItemEnabled": true
+              },
+              "ItemMenu": {},
+              "TopToolbar": {},
+              "BottomToolbar": {
+                "fullWindowButtonEnabled": false
+              },
+              "FinishButton": {
+                "mode": "Disabled"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "order",
+      "type": "order",
+      "params": {
+        "data": {},
+        "props": {
+          "_stateId": [
+            "{{ $['editor'].stateId }}"
+          ],
+          "_userId": "{{ $['editor'].userId }}",
+          "_hidden": {
+            "snapshot": "{{ main.editorState }}",
+            "images": "{{ $['editor'].proofImageUrls.map(u=>u[0]) }}",
+            "downloadUrls": "{{ $['editor'].hiResUrls }}"
+          }
+        }
+      }
+    },
+    {
+      "name": "finish",
+      "type": "finish-group",
+      "params": {
+        "checkboxPrompt": "I have reviewed and approve my design.",
+        "value": false,
+        "checkboxEnabled": true,
+        "checkboxVisible": true,
+        "buttonText": "Add to cart",
+        "buttonClassStyle": "primary",
+        "downloadVisible": "{{ vars.allowDownloadProofPdf }}",
+        "downloadText": "Download proof PDF",
+        "downloads": [
+          "{{#function $['editor'].getProofPdf()}}",
+          "{{#function(urls) urls.map((x,i)=> ({ url: x, name: 'proof_'+i+'.pdf', newTab: true }) ) }}"
+        ],
+        "onClick": [
+          "{{#function main.showPreloader(true, 'Creating print files...')}}",
+          "{{#function $['editor'].saveProduct()}}",
+          "{{#function $['order'].widgetUpdated}}",
+          "{{#function main.showPreloader(false)}}"
+        ]
+      }
+    },
+    {
+      "name": "finish-button",
+      "type": "finish-button",
+      "params": {
+        "visible": false
+      }
+    },
+    {
+      "name": "preview",
+      "type": "slider",
+      "params": {
+        "style": {
+          "--au-widget-background": "#eee",
+          "--au-widget-padding": "8px"
+        },
+        "direction": "tile",
+        "rows": 1,
+        "columns": "{{Math.min(2,$['editor'].proofImageUrls.length)}}",
+        "containerColor": "#eee",
+        "images": {
+          "{{#each $['editor'].proofImageUrls.map(s=>s[0]) as imageUrl }}": {
+            "url": "{{imageUrl}}"
+          }
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "1. Editor",
+      "mainPanel": {
+        "name": "editor"
+      }
+    },
+    {
+      "name": "2. Approval",
+      "mainPanel": {
+        "name": "preview"
+      },
+      "bottomPanel": {
+        "name": "finish"
+      },
+      "onActivate": [
+        "{{#function $['editor'].getProofImages(800,800)}}",
+        "{{#function $['finish'].value = false}}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,672 @@
+{
+  "showSteps": true,
+  "attributes": [
+    {
+      "type": "number",
+      "name": "width",
+      "label": "Product specification 1. Width (inch)",
+      "description": "A product width you want to enforce.",
+      "step": 0.125,
+      "defaultValue": 8.5,
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required. Must be a number greater than 1/8 inch."
+        },
+        {
+          "type": "min",
+          "min": 0.125,
+          "message": "Min value is 1/8 inch. For smaller sizes, please contact us."
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "height",
+      "label": "Product specification 2. Height (inch)",
+      "description": "A product height you want to enforce.",
+      "step": 0.125,
+      "defaultValue": 11,
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required. Must be a number greater than 1/8 inch."
+        },
+        {
+          "type": "min",
+          "min": 0.125,
+          "message": "Min value is 1/8 inch. For smaller sizes, please contact us."
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "bleed",
+      "label": "Product specification 3. Bleed (inch)",
+      "description": "A bleed zone size (in inch). Set 0 to turn it off.",
+      "step": 0.125,
+      "defaultValue": 0.125,
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required."
+        },
+        {
+          "type": "min",
+          "min": 0,
+          "message": "Min value is 0. Must be a non-negative number."
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "pages",
+      "label": "Product specification 4.1. Number of pages",
+      "description": "How many pages (or sides) your product must have. NOTE: If you set \"Yes\" in the next attribute, a user will be able to add more pages or remove them.",
+      "step": 1,
+      "defaultValue": 1,
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required."
+        },
+        {
+          "type": "min",
+          "min": 1,
+          "message": "It should have at least one page."
+        }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "new-pages",
+      "label": "Product specification 4.2. Variable number of pages",
+      "description": "Allow your customers changing a number of pages after they upload a PDF. Set \"No\" if the product has fixed number of pages/sides.",
+      "defaultValue": "false",
+      "values": {
+        "true": "Yes, allow adding/removing pages",
+        "false": "No"
+      }
+    },
+    {
+      "type": "number",
+      "name": "dpi",
+      "label": "Product specification 5. Resolution",
+      "description": "Specify the product resolution (in dpi) you want to enforce. A typical resolution for commercial printing is 300 dpi, but for larger products you may want to use smaller values.",
+      "step": 10,
+      "defaultValue": 300,
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        },
+        {
+          "type": "min",
+          "min": 10,
+          "message": "Min resolution is 10dpi. Contact us if your products require smaller resolutions."
+        }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "colorspace",
+      "label": "Product specification 6. Color space",
+      "description": "An uploaded document color space you would like to enforce - CMYK or RGB.",
+      "defaultValue": "cmyk",
+      "values": {
+        "cmyk": "CMYK",
+        "rgb": "RGB"
+      }
+    },
+    {
+      "name": "cmyk-colorprofile",
+      "label": "CMYK color profile",
+      "description": "A color profile used to convert files to CMYK. You may leave it blank if your color space is RGB.",
+      "type": "single-asset",
+      "assetType": "colorprofile"
+    },
+    {
+      "name": "rgb-colorprofile",
+      "label": "RGB color profile",
+      "description": "A color profile used to convert files to RGB. You may leave it blank if your color space is CMYK.",
+      "type": "single-asset",
+      "assetType": "colorprofile"
+    },
+    {
+      "type": "list",
+      "name": "rule-colorspace",
+      "label": "Rule 1. Color space",
+      "description": "Choose what happens when a color space of the document does not match the specification. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev2",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-resolution",
+      "label": "Rule 2. Resolution",
+      "description": "Choose what happens when the resolution of the uploaded document does not match specification. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev1",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-insidebleedbox",
+      "label": "Rule 3. Inside bleed box",
+      "description": "Choose what happens when a portion of the content leaves the bleed zone. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev1",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-nomargins",
+      "label": "Rule 4. No margins",
+      "description": "Choose what happens when the content is smaller than the trim box and there are the blank margins. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev1",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-sameorientation",
+      "label": "Rule 5. Page orientation",
+      "description": "Choose what happens when different pages/sides of a document have different orientation. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev1",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-textascurves",
+      "label": "Rule 6. Text as curves",
+      "description": "Choose what happens when the uploaded document has text elements. It is supposed that the user must convert text to curves to avoid any text rendering issues during the printing. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev0",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "name": "rule-embeddedfonts",
+      "label": "Rule 7. Embedded fonts",
+      "description": "Choose what happens when the uploaded document uses a font which is not embedded to the PDF file. Select \"Off\" to bypass this rule.",
+      "defaultValue": "lev2",
+      "values": {
+        "lev0": "Off",
+        "lev1": "Warning",
+        "lev2": "Error"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "This field is required"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "name": "enable-fix",
+      "label": "Enable an ability to fix problems using the Preflight Tool.",
+      "description": "It may automatically convert RGB<->CMYK, and fix several other issues. However, in this case you won't get an original PDF file uploaded by the user. You will work with PDF file modified by our image processing engine. If you prefer working with the original PDF file, you may turn it off.",
+      "defaultValue": true
+    }
+  ],
+  "vars": {
+    "width": "{{ product.attributes?.find(x=>x.name==='width')?.value * 72 }}",
+    "height": "{{ product.attributes?.find(x=>x.name==='height')?.value * 72 }}",
+    "bleed": "{{ product.attributes?.find(x=>x.name==='bleed')?.value * 72 }}",
+    "pages": {
+      "number": "{{ product.attributes?.find(x=>x.name==='pages')?.value }}",
+      "allowAdd": "{{product.attributes?.find(x=>x.name==='new-pages')?.value === 'true'}}",
+      "allowDelete": "{{product.attributes?.find(x=>x.name==='new-pages')?.value === 'true'}}",
+      "titles": {
+        "{{ #if product.attributes?.find(x=>x.name==='pages')?.value == 2 }}": [
+          {
+            "title": "Front side"
+          },
+          {
+            "title": "Back side"
+          }
+        ],
+        "{{ #else }}": {
+          "{{ #each Array(vars.realNumOfPages).fill(1).map((el,i)=>el+i) }}": {
+            "title": "{{ 'Page ' + item }}"
+          }
+        }
+      }
+    },
+    "realNumOfPages": {
+      "{{ #if !Array.isArray($['preflight'].preview) }}": "{{ product.attributes?.find(x=>x.name==='pages')?.value }}",
+      "{{ #else }}": "{{ $['preflight'].preview.length }}"
+    },
+    "dpi": "{{ product.attributes?.find(x=>x.name==='dpi')?.value }}",
+    "colorspace": "{{ product.attributes?.find(x=>x.name==='colorspace')?.value }}",
+    "enableFix": "{{ product.attributes?.find(x=>x.name==='enable-fix')?.value ?? false }}",
+    "insideBleedboxRule": "{{ product.attributes?.find(x=>x.name==='rule-insidebleedbox')?.value ?? 'lev0' }}",
+    "nomarginsRule": "{{ product.attributes?.find(x=>x.name==='rule-nomargins')?.value ?? 'lev0' }}",
+    "colorspaceRule": "{{ product.attributes?.find(x=>x.name==='rule-colorspace')?.value ?? 'lev0' }}",
+    "sameorientationRule": "{{ product.attributes?.find(x=>x.name==='rule-sameorientation')?.value ?? 'lev0' }}",
+    "textascurvesRule": "{{ product.attributes?.find(x=>x.name==='rule-textascurves')?.value ?? 'lev0' }}",
+    "embeddedfontsRule": "{{ product.attributes?.find(x=>x.name==='rule-embeddedfonts')?.value ?? 'lev0' }}",
+    "minfontsizeRule": "{{ product.attributes?.find(x=>x.name==='rule-minfontsize')?.value ?? 'lev0' }}",
+    "forbiddenfontsRule": "{{ product.attributes?.find(x=>x.name==='rule-forbiddenfonts')?.value ?? 'lev0' }}",
+    "resolutionRule": "{{ product.attributes?.find(x=>x.name==='rule-resolution')?.value ?? 'lev0' }}",
+    "cmykColorProfile": "{{ product.attributes?.find(x=>x.name==='cmyk-colorprofile')?.value || {} }}",
+    "rgbColorProfile": "{{ product.attributes?.find(x=>x.name==='rgb-colorprofile')?.value || {} }}",
+    "backendUrl": "{{ settings.preflightToolUrl }}"
+  },
+  "widgets": [
+    {
+      "name": "info",
+      "type": "html",
+      "params": {
+        "data": [
+          {
+            "width": "{{ (vars.width / 72).toLocaleString(undefined,{maximumFractionDigits:2, useGrouping:false}) }}",
+            "height": "{{ (vars.height / 72).toLocaleString(undefined,{maximumFractionDigits:2, useGrouping:false}) }}",
+            "dpi": "{{ vars.dpi }}",
+            "colorspace": "{{ vars.colorspace.toUpperCase() }}"
+          }
+        ],
+        "template": {
+          "<>": "div",
+          "html": [
+            {
+              "<>": "p",
+              "html": "This Preflight Tool is configured with the following settings:"
+            },
+            {
+              "<>": "p",
+              "html": "<strong>Size: </strong> ${width}x${height} inch<br><strong>Color Space: </strong> ${colorspace}<br><strong>Min resolution: </strong> ${dpi} dpi"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "preflight",
+      "type": "preflight",
+      "params": {
+        "config": {
+          "language": "en",
+          "backendUrl": "{{ vars.backendUrl }}",
+          "startFromUploader": true,
+          "uploader": {
+            "fileTypes": [
+              ".pdf",
+              ".jpeg",
+              ".jpg",
+              ".gif",
+              ".tif",
+              ".png",
+              ".psd",
+              ".ai"
+            ],
+            "initialMode": "fitToBleed",
+            "multiple": true
+          },
+          "product": {
+            "pages": "{{ vars.pages.titles }}",
+            "allowAddPages": "{{ vars.pages.allowAdd }}",
+            "allowDeletePages": "{{ vars.pages.allowDelete }}",
+            "dpi": "{{ vars.dpi }}",
+            "bleed": "{{ vars.bleed }}",
+            "size": {
+              "width": "{{ vars.width }}",
+              "height": "{{ vars.height }}"
+            },
+            "safetyLines": [
+              {
+                "stepPx": 5,
+                "widthPx": 1,
+                "borderRadius": 0,
+                "color": "#22b980",
+                "altColor": "#00ff00",
+                "margin": 20,
+                "name": "safe-area",
+                "legend": {
+                  "title": "Safe area",
+                  "description": "This is where you should place your most important information within your design."
+                }
+              }
+            ]
+          },
+          "viewer": {
+            "locked": false,
+            "shadeBleedZone": true,
+            "bleedZoneColor": "rgba(250,137,137,0.75)",
+            "keepAspectRatio": false,
+            "rulers": {
+              "enabled": true,
+              "unit": "inch",
+              "customUnitScale": 1,
+              "origin": {
+                "x": 0,
+                "y": 0
+              }
+            },
+            "zoom": {
+              "min": 0.1,
+              "max": 1.5,
+              "default": 1,
+              "step": 0.1
+            }
+          },
+          "rules": {
+            "{{#concat}}": [
+              {
+                "{{#if vars.minfontsizeRule !== 'lev0' }}": [
+                  {
+                    "type": "minfontsize",
+                    "severity": "{{ vars.minfontsizeRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {
+                      "colored": 18,
+                      "black": 10
+                    }
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.forbiddenfontsRule !== 'lev0' }}": [
+                  {
+                    "type": "forbiddenfonts",
+                    "severity": "{{ vars.forbiddenfontsRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {
+                      "fonts": [
+                        "Anton-Regular",
+                        "Rubik-Regular",
+                        "Raleway-Black"
+                      ]
+                    }
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.textascurvesRule !== 'lev0' }}": [
+                  {
+                    "type": "textascurves",
+                    "severity": "{{ vars.textascurvesRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {}
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.resolutionRule !== 'lev0' }}": [
+                  {
+                    "type": "resolution",
+                    "severity": "{{ vars.resolutionRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {
+                      "target": "{{ vars.dpi }}"
+                    }
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.embeddedfontsRule !== 'lev0' }}": [
+                  {
+                    "type": "embeddedfonts",
+                    "severity": "{{ vars.embeddedfontsRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {}
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.sameorientationRule !== 'lev0' }}": [
+                  {
+                    "type": "sameorientation",
+                    "severity": "{{ vars.sameorientationRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {}
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.colorspaceRule !== 'lev0' }}": [
+                  {
+                    "type": "colorspace",
+                    "severity": "{{ vars.colorspaceRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {
+                      "allowedColorSpaces": [
+                        "{{ vars.colorspace }}"
+                      ]
+                    }
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.nomarginsRule !== 'lev0' }}": [
+                  {
+                    "type": "nomargins",
+                    "severity": "{{ vars.nomarginsRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {}
+                  }
+                ],
+                "{{#else}}": []
+              },
+              {
+                "{{#if vars.insideBleedboxRule !== 'lev0' }}": [
+                  {
+                    "type": "insideBleedbox",
+                    "severity": "{{ vars.insideBleedboxRule === 'lev1' ? 'warning' : 'error' }}",
+                    "enableFix": "{{ vars.enableFix }}",
+                    "params": {}
+                  }
+                ],
+                "{{#else}}": []
+              }
+            ]
+          },
+          "rendering": {
+            "hiResOutputToSeparateFiles": false,
+            "trimPreviewOnBleed": true,
+            "previewSize": {
+              "width": 800,
+              "height": 800
+            },
+            "rgbColorProfileId": "{{ vars.rgbColorProfile?.id ?? '' }}",
+            "cmykColorProfileId": "{{ vars.cmykColorProfile?.id ?? '' }}"
+          },
+          "interface": {
+            "style": {
+              "button[_ngcontent-omc-c2]": {
+                "padding": "8px",
+                "color": "var(--theme-primary-color)"
+              }
+            },
+            "topToolbar": [
+              {
+                "name": "upload"
+              },
+              {
+                "name": "rotateCanvas"
+              },
+              {
+                "name": "fillToBleed"
+              },
+              {
+                "name": "fitToBleed"
+              },
+              {
+                "name": "center"
+              },
+              {
+                "name": "reset"
+              },
+              {
+                "name": "keepAspectRatio"
+              }
+            ]
+          }
+        },
+        "onPageChange": [
+          "{{ #function(page) page==='editor' && main.stepIndex === 0 ? main.nextStep() : '' }}"
+        ]
+      }
+    },
+    {
+      "name": "order",
+      "type": "order",
+      "params": {
+        "data": {
+          "origins": "{{ $['preflight'].origins }}",
+          "failed": "{{ $['preflight'].failedChecks }}",
+          "_hidden": {
+            "snapshot": "{{ main.editorState }}",
+            "images": "{{ $['preflight'].preview }}",
+            "downloadUrls": "{{ $['preflight'].hires }}"
+          },
+          "_fields": {
+          	"HiResPDF": "{{ $['preflight'].hires[0] }}" 
+          }
+        }
+      }
+    },
+    {
+      "name": "preview",
+      "type": "image-carousel",
+      "params": {
+        "containerColor": "#eee",
+        "arrowButtonsEnabled": true,
+        "imageSelectorPosition": "right",
+        "style": {
+          "--au-widget--padding": "16px"
+        },
+        "images": {
+          "{{ #each $['preflight'].preview as image }}": {
+            "url": "{{ image }}",
+            "title": {
+              "{{ #if $['preflight'].preview.length == 2 }}": "{{ !index ? 'Front side' : 'Back side' }}",
+              "{{ #else }}": "{{ 'Page ' + (index + 1) }}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "steps",
+      "type": "steps",
+      "params": {
+        "availabilityMode": "previous",
+        "steps": {
+          "1": {
+            "enabled": "{{ main.stepIndex != 0 || $['preflight'].hasFiles }}"
+          },
+          "2": {
+            "enabled": "{{ $['preflight'].failedChecks.errors.length === 0 && main.stepIndex == 1 && $['preflight'].hasFiles }}"
+          }
+        }
+      }
+    },
+    {
+      "name": "finish-button",
+      "type": "finish-button",
+      "params": {
+        "visible": "{{ main.stepIndex === 2 }}"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "1. Upload",
+      "mainPanel": {
+        "name": "preflight"
+      },
+      "rightToolPanel": {
+        "name": "info"
+      },
+      "onActivate": [
+        "{{ #function $['preflight'].setStep('uploader') }}"
+      ]
+    },
+    {
+      "name": "2. Preflight",
+      "mainPanel": {
+        "name": "preflight"
+      },
+      "onActivate": [
+        "{{ #function  $['preflight'].setStep('editor') }}"
+      ]
+    },
+    {
+      "name": "3. Preview",
+      "mainPanel": {
+        "name": "preview"
+      },
+      "onActivate": [
+        "{{ #function (()=>{ var warningLength = $['preflight'].failedChecks.warnings.length; var hasWarnings = warningLength > 0; if (hasWarnings) { var confirmResult = confirm('Your have ' + warningLength + ' warnings. Continue?'); if (confirmResult) { return; } else { main.prevStep(); throw ''; } } })() }}",
+        "{{ #function $['preview'].showPreloader(1) }}",
+        "{{ #function $['preflight'].getResults() }}",
+        "{{ #function $['preview'].showPreloader(0) }}"
+      ]
+    }
+  ]
+}

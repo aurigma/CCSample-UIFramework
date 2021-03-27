@@ -1,0 +1,23 @@
+{
+  "showSteps": false,
+  "vars": {
+    "foo": "bar"
+  },
+  "widgets": [
+    {
+      "name": "widget-1",
+      "type": "input-text",
+      "params": {
+        "defaultValue": "{{vars.foo}}"
+      }
+    },
+  ],
+  "steps": [
+    {
+      "name": "main",
+      "mainPanel": {
+        "name": "widget-2"
+      }
+    }
+  ]
+}

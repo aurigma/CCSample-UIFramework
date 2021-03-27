@@ -1,0 +1,124 @@
+{
+  "showSteps": false,
+  "vars": {
+    "data": [
+      "Var Value 1",
+      "Var Value 2",
+      "Var Value 3",
+      "Var Value 4"
+    ]
+  },
+  "widgets": [
+    {
+      "name": "main",
+      "type": "group",
+      "params": {
+        "type": "noncollapsible",
+        "tabs": [
+          {
+            "title": "Different definition types",
+            "widgets": [
+              {
+                "name": "inline",
+                "type": "option",
+                "title": "Inline values",
+                "params": {
+                  "type": "radio",
+                  "subType": "compact",
+                  "values": [
+                    {
+                      "title": "Inline 1"
+                    },
+                    {
+                      "title": "Inline 2"
+                    },
+                    {
+                      "title": "Inline 3"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "from-vars",
+                "type": "option",
+                "title": "Values from vars",
+                "params": {
+                  "type": "list",
+                  "values": {
+                    "{{#each vars.data as value}}": {
+                      "title": "{{value}}"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "from-ecommerce",
+                "type": "option",
+                "title": "Values from ecommerce",
+                "params": {
+                  "id": 123
+                }
+              },
+              {
+                "name": "text-ecommerce",
+                "type": "input-text",
+                "params": {
+                  "defaultValue": "{{product.options.find(o=>o.id===234).defaultValue}}"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "overview",
+      "type": "html",
+      "title": "Selected values",
+      "prompt": "All values selected in this sample are listed below.",
+      "params": {
+        "data": [
+          {
+            "title": "{{$['inline'].title}}",
+            "value": "{{$['inline']._.title}}"
+          },
+          {
+            "title": "{{$['from-vars'].title}}",
+            "value": "{{$['from-vars']._.title}}"
+          },
+          {
+            "title": "{{$['from-ecommerce'].title}}",
+            "value": "{{$['from-ecommerce']._.title}}"
+          }
+        ],
+        "template": {
+          "<>": "div",
+          "html": [
+            {
+              "<>": "span",
+              "text": "${title}: ",
+              "style": "font-weight: bold"
+            },
+            {
+              "<>": "span",
+              "text": "${value}"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "main",
+      "title": "Option Widget samples",
+      "description": "Here you can find how to work with options.",
+      "mainPanel": {
+        "name": "main"
+      },
+      "toolPanel": {
+        "name": "overview"
+      }
+    }
+  ]
+}

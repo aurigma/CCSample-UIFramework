@@ -1,0 +1,251 @@
+{
+  "showSteps": true,
+  "modals": [
+    {
+      "name": "external_selector",
+      "header": "This is my header",
+      "externalContent": {
+        "url": "https://customerscanvas.com/",
+        "selector": "div.user-content.row-spacing"
+      },
+      "showOnStartup": true
+    },
+    {
+      "name": "external_scrollTo",
+      "header": "This is my header",
+      "externalContent": {
+        "url": "https://customerscanvas.com/docs/cc/web-api-for-crud-operations-on-fonts.htm",
+        "scrollTo": "#getFontList"
+      }
+    },
+    {
+      "name": "html_iframe",
+      "header": "This is my header",
+      "htmlContent": "<iframe width='100%' height='100%' src='https://css-tricks.com/snippets/css/a-guide-to-flexbox/' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe>",
+      "styles": {
+        "width": "50%",
+        "height": "50%"
+      },
+      "showOnStartup": false
+    },
+    {
+      "name": "widget",
+      "header": "This is my header",
+      "widget": "main"
+    },
+    {
+      "name": "string_content",
+      "header": "This is my header",
+      "content": "Hello World"
+    }
+  ],
+  "vars": {
+    "data": [
+      "Var Value 1",
+      "Var Value 2",
+      "Var Value 3",
+      "Var Value 4"
+    ]
+  },
+  "widgets": [
+    {
+      "name": "text",
+      "type": "static-text",
+      "params": {
+        "text": "{{ main.currentStep.name }}"
+      }
+    },
+    {
+      "name": "help",
+      "type": "help",
+      "title": "help",
+      "params": {
+        "steps": {
+          "0": {
+            "type": "modal",
+            "content": "external_selector"
+          },
+          "1": {
+            "type": "modal",
+            "content": "external_scrollTo"
+          },
+          "2": {
+            "type": "modal",
+            "content": "html_iframe"
+          },
+          "3": {
+            "type": "modal",
+            "content": "widget"
+          },
+          "4": {
+            "type": "modal",
+            "content": "string_content"
+          },
+          "5": {
+            "type": "page",
+            "content": "http://customerscanvas.com"
+          }
+        }
+      }
+    },
+    {
+      "name": "simple",
+      "type": "html",
+      "title": "Simple span",
+      "params": {
+        "template": {
+          "<>": "span",
+          "text": "Hello world"
+        }
+      }
+    },
+    {
+      "name": "order",
+      "type": "order",
+      "params": {
+        "data": {
+          "foo": "bar"
+        }
+      }
+    },
+    {
+      "name": "main",
+      "type": "group",
+      "params": {
+        "type": "noncollapsible",
+        "tabs": [
+          {
+            "title": "Different definition types",
+            "widgets": [
+              {
+                "name": "inline",
+                "type": "option",
+                "title": "Inline values",
+                "params": {
+                  "type": "radio",
+                  "subType": "compact",
+                  "values": [
+                    {
+                      "title": "Inline 1"
+                    },
+                    {
+                      "title": "Inline 2"
+                    },
+                    {
+                      "title": "Inline 3"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "from-vars",
+                "type": "option",
+                "title": "Values from vars",
+                "params": {
+                  "type": "list",
+                  "values": {
+                    "{{#each vars.data as value}}": {
+                      "title": "{{value}}"
+                    }
+                  }
+                }
+              },
+              {
+                "name": "from-ecommerce",
+                "type": "option",
+                "title": "Values from ecommerce",
+                "params": {
+                  "id": 123
+                }
+              },
+              {
+                "name": "text-ecommerce",
+                "type": "input-text",
+                "params": {
+                  "defaultValue": "{{product.options.find(o=>o.id===234).defaultValue}}"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "overview",
+      "type": "html",
+      "title": "Selected values",
+      "prompt": "All values selected in this sample are listed below.",
+      "params": {
+        "data": [
+          {
+            "title": "{{$['inline'].title}}",
+            "value": "{{$['inline']._.title}}"
+          },
+          {
+            "title": "{{$['from-vars'].title}}",
+            "value": "{{$['from-vars']._.title}}"
+          },
+          {
+            "title": "{{$['from-ecommerce'].title}}",
+            "value": "{{$['from-ecommerce']._.title}}"
+          }
+        ],
+        "template": {
+          "<>": "div",
+          "html": [
+            {
+              "<>": "span",
+              "text": "${title}: ",
+              "style": "font-weight: bold"
+            },
+            {
+              "<>": "span",
+              "text": "${value}"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "external_selector",
+      "mainPanel": {
+        "name": "text"
+      }
+    },
+    {
+      "name": "external_scrollTo",
+      "mainPanel": {
+        "name": "text"
+      }
+    },
+    {
+      "name": "html_iframe",
+      "mainPanel": {
+        "name": "text"
+      }
+    },
+    {
+      "name": "widget",
+      "mainPanel": {
+        "name": "main"
+      },
+      "toolPanel": {
+        "name": "overview"
+      }
+    },
+    {
+      "name": "string_content",
+      "mainPanel": {
+        "name": "text"
+      }
+    },
+    {
+      "name": "page",
+      "mainPanel": {
+        "name": "text"
+      }
+    }
+  ]
+}

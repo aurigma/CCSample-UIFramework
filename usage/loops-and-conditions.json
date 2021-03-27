@@ -1,0 +1,41 @@
+{
+  "showSteps": false,
+  "widgets": [
+    {
+      "name": "widget-1",
+      "type": "input-text",
+      "params": {
+        "defaultValue": "Hello world"
+      }
+    },
+    {
+      "name": "widget-2",
+      "type": "html",
+      "params": {
+        "template": {
+          "<>": "ul",
+          "html": {
+            "{{#if $['widget-1'].value != ''}}": {
+              "{{#each $['widget-1'].value.split(',') as element}}": {
+                "<>": "li",
+                "html": "{{element}}"
+              }
+            },
+            "{{#else}}": "None"
+          }
+        }
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "main",
+      "toolPanel": {
+        "name": "widget-1"
+      },
+      "mainPanel": {
+        "name": "widget-2"
+      }
+    }
+  ]
+}

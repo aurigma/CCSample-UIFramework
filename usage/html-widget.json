@@ -1,0 +1,149 @@
+{
+  "showSteps": false,
+  "vars": {
+    "data": [
+      {
+        "title": "Option 1",
+        "value": "Value 1"
+      },
+      {
+        "title": "Option 2",
+        "value": "Value 2"
+      }
+    ]
+  },
+  "widgets": [
+    {
+      "name": "main",
+      "type": "group",
+      "params": {
+        "type": "htab",
+        "tabs": [
+          {
+            "title": "Static HTML",
+            "widgets": [
+              {
+                "name": "simple",
+                "type": "html",
+                "title": "Simple span",
+                "params": {
+                  "template": {
+                    "<>": "span",
+                    "text": "Hello world"
+                  }
+                }
+              },
+              {
+                "name": "styling",
+                "type": "html",
+                "title": "Span with style",
+                "params": {
+                  "template": [
+                    {
+                      "<>": "style",
+                      "text": ".myclass { color: red }"
+                    },
+                    {
+                      "<>": "span",
+                      "class": "myclass",
+                      "text": "Lorum ipsum"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "nested",
+                "type": "html",
+                "title": "Nested HTML",
+                "params": {
+                  "template": {
+                    "<>": "ul",
+                    "html": [
+                      {
+                        "<>": "li",
+                        "text": "Foo"
+                      },
+                      {
+                        "<>": "li",
+                        "text": "Bar"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "title": "HTML + Data",
+            "widgets": [
+              {
+                "name": "data-based",
+                "type": "html",
+                "title": "HTML with data",
+                "params": {
+                  "data": [
+                    {
+                      "title": "Color",
+                      "value": "Space Gray"
+                    },
+                    {
+                      "title": "Shape",
+                      "value": "Rounded Rect"
+                    }
+                  ],
+                  "template": {
+                    "<>": "div",
+                    "html": [
+                      {
+                        "<>": "span",
+                        "text": "${title}: ",
+                        "style": "font-weight: bold"
+                      },
+                      {
+                        "<>": "span",
+                        "text": "${value}"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "name": "dynamic-config-based",
+                "type": "html",
+                "title": "Dynamic HTML",
+                "params": {
+                  "template": {
+                    "{{#each vars.data}}": {
+                      "<>": "div",
+                      "html": [
+                        {
+                          "<>": "span",
+                          "text": "{{item.title}}",
+                          "style": "font-weight: bold"
+                        },
+                        {
+                          "<>": "span",
+                          "text": "{{item.value}}"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "main",
+      "title": "HTML Widget samples",
+      "description": "Here you can see examples of usage of an Html widget.",
+      "mainPanel": {
+        "name": "main"
+      }
+    }
+  ]
+}

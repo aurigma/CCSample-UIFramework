@@ -1,0 +1,278 @@
+{
+  "attributes": [
+    {
+      "type": "number",
+      "name": "attribute-1",
+      "label": "Score",
+      "step": 1,
+      "description": "A min value is 1, a max value is 5; step is 1. It is required.",
+      "validations": [
+        {
+          "type": "required",
+          "message": "Cannot be empty!"
+        },
+        {
+          "type": "min",
+          "min": 1,
+          "message": "Should not be less than 1"
+        },
+        {
+          "type": "max",
+          "max": 5,
+          "message": "Should not exceed 5"
+        }
+      ]
+    },
+    {
+      "type": "number",
+      "name": "attribute-2",
+      "label": "Bleed",
+      "step": 0.125,
+      "description": "A step is 0.125, no constraints, optional."
+    },
+    {
+      "type": "text",
+      "name": "attribute-3",
+      "label": "Handle",
+      "description": "An alphanumeric + hyphens (URL-friendly) string, allowed length is between 3 and 10. Optional.",
+      "validations": [
+        {
+          "type": "pattern",
+          "message": "Should be alphanumeric + hyphen",
+          "pattern": "[a-zA-Z0-9-]+"
+        },
+        {
+          "type": "minlength",
+          "minlength": 3,
+          "message": "Should not be less than 1"
+        },
+        {
+          "type": "maxlength",
+          "maxlength": 10,
+          "message": "Should not exceed 5"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "attribute-4",
+      "label": "Label",
+      "description": "No constraints on a text line. Required.",
+      "validations": [
+        {
+          "type": "required",
+          "message": "Don't leave it blank!"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "name": "attribute-5",
+      "label": "Subscribe me for spam, please!",
+      "defaultValue": true,
+      "description": "It is set by default."
+    },
+    {
+      "type": "checkbox",
+      "name": "attribute-6",
+      "label": "Are you agree?",
+      "description": "Not set by default. Value is required (i.e. should be explicitly set or unset).",
+      "validations": [
+        {
+          "type": "required",
+          "message": "Express your opinion explicitly!"
+        }
+      ]
+    },
+    {
+      "type": "radio",
+      "name": "attribute-7",
+      "label": "Your favorite band",
+      "description": "Weather report is a default option.",
+      "defaultValue": "val05",
+      "values": {
+        "val01": "The Beatles",
+        "val02": "Rolling Stones",
+        "val03": "Pink Floyd",
+        "val04": "Deep Purple",
+        "val05": "Weather Report",
+        "val06": "ВИА \"Синяя птица\"",
+        "val07": "Машина времени",
+        "val08": "Кино",
+        "val09": "Ария",
+        "val10": "Ласковый май"
+      }
+    },
+    {
+      "type": "list",
+      "name": "attribute-8",
+      "label": "Your favorite band (list)",
+      "description": "No default value. Required.",
+      "values": {
+        "val01": "The Beatles",
+        "val02": "Rolling Stones",
+        "val03": "Pink Floyd",
+        "val04": "Deep Purple",
+        "val05": "Weather Report",
+        "val06": "ВИА \"Синяя птица\"",
+        "val07": "Машина времени",
+        "val08": "Кино",
+        "val09": "Ария",
+        "val10": "Ласковый май"
+      },
+      "validations": [
+        {
+          "type": "required",
+          "message": "You are supposed to love one of those bands! ;-) "
+        }
+      ]
+    },
+    {
+      "type": "rgb-color",
+      "name": "attribute-9",
+      "label": "Primary Color",
+      "description": "A default value is a blue color (#2E86C1). Optional.",
+      "defaultValue": "#2E86C1"
+    },
+    {
+      "type": "asset-root",
+      "name": "attribute-10",
+      "label": "Design Group",
+      "description": "A design folder. Required.",
+      "assetType": "design",
+      "validations": [
+        {
+          "type": "required",
+          "message": "Choose a folder."
+        }
+      ]
+    },
+    {
+      "type": "single-asset",
+      "name": "attribute-11",
+      "label": "Design",
+      "description": "A single design. Required.",
+      "assetType": "design",
+      "validations": [
+        {
+          "type": "required",
+          "message": "Choose an item."
+        }
+      ]
+    },
+    {
+      "type": "asset-root",
+      "name": "attribute-12",
+      "label": "Font Group",
+      "description": "A font folder. Optional.",
+      "assetType": "font"
+    },
+    {
+      "type": "single-asset",
+      "name": "attribute-13",
+      "label": "Font",
+      "description": "A single font. Optional.",
+      "assetType": "font"
+    },
+    {
+      "type": "asset-root",
+      "name": "attribute-14",
+      "label": "Image Group",
+      "description": "An image folder. Optional.",
+      "assetType": "image"
+    },
+    {
+      "type": "single-asset",
+      "name": "attribute-15",
+      "label": "Image",
+      "description": "A single image. Optional.",
+      "assetType": "image"
+    },
+    {
+      "type": "asset-root",
+      "name": "attribute-16",
+      "label": "Color profile group",
+      "description": "A color profile folder. Optional.",
+      "assetType": "colorprofile"
+    },
+    {
+      "type": "single-asset",
+      "name": "attribute-17",
+      "label": "Color profile",
+      "description": "A single color profile. Optional.",
+      "assetType": "colorprofile"
+    },
+    {
+      "type": "asset-root",
+      "name": "attribute-18",
+      "label": "Data schema group",
+      "description": "A data schema folder. Optional.",
+      "assetType": "dataschema"
+    },
+    {
+      "type": "single-asset",
+      "name": "attribute-19",
+      "label": "Data schema",
+      "description": "A single data schema. Optional.",
+      "assetType": "dataschema"
+    }
+  ],
+  "widgets": [
+    {
+      "name": "attrib-list",
+      "type": "html",
+      "params": {
+        "template": [
+          {
+            "<>": "style",
+            "text": ".tooltip { margin-right: 16px; position: relative;display: inline-block;border-bottom: 1px dotted black; }\n\n.tooltip .tooltiptext { visibility: hidden; width: 800px; background-color: #555; color: #fff; padding: 4px 0; border-radius: 8px; \n\n  /* Position the tooltip text */ position: absolute; z-index: 1; top: 0; left: 0; margin-left: -16px; padding: 8px }\n.tooltip:hover .tooltiptext {  visibility: visible; opacity: 1; }"
+          },
+          {
+            "<>": "ul",
+            "html": {
+              "{{#each product.attributes}}": {
+                "<>": "li",
+                "html": [
+                  
+                  {
+                    "<>": "div",
+                    "class": "tooltip",
+                    "text": "JSON",
+                    "html": [{
+                      "<>": "pre",
+                      "class": "tooltiptext",
+                      "text": "{{JSON.stringify(item, null, 4)}}"
+                    }]
+                  },
+                  {
+                    "<>": "strong",
+                    "text": "{{item.name + ' = '}}"
+                  },
+                  {
+                    "<>": "span",
+                    "html": {
+                      "{{#if typeof(item.value) === 'undefined' || item.value === null}}": "<i>[Not set]</i>",
+                      "{{#elseif typeof(item.value) === 'boolean'}}": "{{item.value.toString()}}",
+                      "{{#elseif /^#[0-9a-fA-F]{3,6}$/g.test(item.value)}}": "{{'<span style=\"padding:2px;border-radius: 8px;border:1px solid;background-color:' + item.value +';\"><b style=\"filter: invert(100%);\">' + item.value + '</b></span>'}}",
+                      "{{#elseif typeof(item.value?.assetType) === 'undefined'}}": "{{item.value}}",
+                      "{{#elseif item.value.id === null || item.value.fullPath === null}}": "<i>[Not set]</i>",
+                      "{{#else}}": "{{'<b>' + item?.value?.fullPath + '</b> [id=<code>' + item?.value?.id + '</code>]'}}"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "steps": [
+    {
+      "title": "View attributes",
+      "mainPanel": {
+        "name": "attrib-list"
+      }
+    }
+  ]
+}
